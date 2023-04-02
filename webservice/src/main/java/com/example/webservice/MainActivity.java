@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //定义获取手机信息的SoapAction与命名空间,作为常量
     private static final String AddressnameSpace = "http://WebXml.com.cn/";
     //天气查询相关参数
-    private static final String Weatherurl = "http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx";
+    private static final String Weatherurl = "http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl";
     private static final String Weathermethod = "getWeather";
     private static final String WeathersoapAction = "http://WebXml.com.cn/getWeather";
+    //    private static final String WeathersoapAction = null;
     //归属地查询相关参数
-    private static final String Addressurl = "http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx";
+    private static final String Addressurl = "http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx";
     private static final String Addressmethod = "getMobileCodeInfo";
     private static final String AddresssoapAction = "http://WebXml.com.cn/getMobileCodeInfo";
 
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread() {
                     @Override
                     public void run() {
-                        getWether();
+                        txt_result.append("获取天气信息服务不可用\n");
+                        //getWether();
                     }
                 }.start();
                 break;
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result = "";
         SoapObject soapObject = new SoapObject(AddressnameSpace, Weathermethod);
         soapObject.addProperty("theCityCode:", edit_param.getText().toString());
-        soapObject.addProperty("theUserID", "dbdf1580476240458784992289892b87");
+        txt_result.append(edit_param.getText().toString());
+        soapObject.addProperty("theUserID", "47f20981511b45de8090e4028875096e");
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = soapObject;
         envelope.dotNet = true;
@@ -108,17 +111,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("天气服务设置完毕,准备开启服务");
         try {
             httpTransportSE.call(WeathersoapAction, envelope);
+            txt_result.append("调用WebService服务成功");
+
 //            System.out.println("调用WebService服务成功");
         } catch (Exception e) {
             e.printStackTrace();
 //            System.out.println("调用WebService服务失败");
+            txt_result.append("调用WebService服务失败");
         }
 
         //获得服务返回的数据,并且开始解析
         SoapObject object = (SoapObject) envelope.bodyIn;
+        txt_result.append("获得服务数据");
         System.out.println("获得服务数据");
-        result = object.getProperty(1).toString();
+
+        result = object.getProperty(0).toString();
+
         handler.sendEmptyMessage(0x001);
+        txt_result.append("发送完毕,textview显示天气信息");
+
         System.out.println("发送完毕,textview显示天气信息");
     }
 
@@ -128,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result = "";
         SoapObject soapObject = new SoapObject(AddressnameSpace, Addressmethod);
         soapObject.addProperty("mobileCode", edit_param.getText().toString());
-        soapObject.addProperty("userid", "dbdf1580476240458784992289892b87");
+        soapObject.addProperty("userid", "47f20981511b45de8090e4028875096e");
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = soapObject;
         envelope.dotNet = true;
@@ -146,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获得服务返回的数据,并且开始解析
         SoapObject object = (SoapObject) envelope.bodyIn;//System.out.println("获得服务数据");
         result = object.getProperty(0).toString();//System.out.println("获取信息完毕,向主线程发信息");
+        System.out.println(result);
         handler.sendEmptyMessage(0x001);
         //System.out.println("发送完毕,textview显示天气信息");
     }

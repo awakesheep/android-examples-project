@@ -2,3 +2,4 @@ rootProject.name = "APK_Template"
 include ':Service'
 include ':flashlight'
 include ':webservice'
+include ':javatest'
