@@ -1,10 +1,16 @@
 package com.example.javatest;
 
+import org.junit.Test;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-public class javatest {
+
+import static org.junit.Assert.*;
+
+
+
+public class webservice {
 
 
     private static String city;
@@ -15,20 +21,16 @@ public class javatest {
     //定义获取手机信息的SoapAction与命名空间,作为常量
     private static final String AddressnameSpace = "http://WebXml.com.cn/";
     //天气查询相关参数
-    // netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=80 connectaddress=61.147.124.120 connectport=80
     private static final String Weatherurl = "http://61.147.124.120/WebServices/WeatherWS.asmx?wsdl";
-    //private static final String Weatherurl = "http://127.0.0.1/WebServices/WeatherWS.asmx?wsdl";
-
-    //private static final String Weatherurl = "http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl";
     private static final String Weathermethod = "getWeather";
     private static final String WeathersoapAction = "http://WebXml.com.cn/getWeather";
-//    private static final String WeathersoapAction = null;
+    //    private static final String WeathersoapAction = null;
     //归属地查询相关参数
-    private static final String Addressurl = "http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx";
+    private static final String Addressurl = "http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl";
     private static final String Addressmethod = "getMobileCodeInfo";
     private static final String AddresssoapAction = "http://WebXml.com.cn/getMobileCodeInfo";
 
-
+    @Test
     public static void main(String[] args) {
         System.out.println("JavaTestClass:main");
         //getWether();
@@ -68,7 +70,7 @@ public class javatest {
     //定义一个获取号码归属地的方法：
     public static void getland() {
         result = "";
-        number = "15894565871";
+        number = "15613720566";
         SoapObject soapObject = new SoapObject(AddressnameSpace, Addressmethod);
         soapObject.addProperty("mobileCode", number);
         soapObject.addProperty("userid", "47f20981511b45de8090e4028875096e");

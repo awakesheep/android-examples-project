@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //定义获取手机信息的SoapAction与命名空间,作为常量
     private static final String AddressnameSpace = "http://WebXml.com.cn/";
-    //天气查询相关参数
-    private static final String Weatherurl = "http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl";
+    //天气查询相关参数 61.147.124.120
+    private static final String Weatherurl = "http://192.168.1.99/WebServices/WeatherWS.asmx?wsdl";
     private static final String Weathermethod = "getWeather";
     private static final String WeathersoapAction = "http://WebXml.com.cn/getWeather";
     //    private static final String WeathersoapAction = null;
